@@ -1,0 +1,393 @@
+WORLD OF WIVES
+
+
+TABLE OF CONTENTS
+
+
+  LAYOUT
+
+  OBJECTIVE
+
+  COMMANDS
+    ADDITIONAL COMMANDS
+    COMMAND SYNONYMS
+    VALID SYNTAX
+    INVALID SYNTAX
+    SILLY SYNTAX
+    SPECIAL INPUTS
+
+  LOCATIONS
+
+  ITEMS
+
+  PEOPLE
+
+  SCRIPT
+    INTRO
+    LOCATION-SPECIFIC
+    ENDING
+
+  MUSIC
+
+  SOUNDS
+
+  FONTS
+
+
+
+text-based adventure. 
+
+LAYOUT
+  display has 5 components: graffix, current progress, location description, action text, input bar
+    1. graffix: shows the player setting/what's good. pre-made images display above the dialogue
+    2. current progress: (##/20 points)    //number will be incremented as progress is made/items obtained
+    3. location description: brief description of the area you're in. more info with LOOK [AROUND].
+    4. action text: reports effects of any actions taken by player. 
+                   //when no actions have been taken in an area, reads: 'What will you do?'
+    5. input bar: where the player types in commands. displays only '>' 
+
+	title screen will display once the game is run, prompting players to press any key to start
+	
+	ESC menu, if it's not too complicated?
+	  options to RESUME, SAVE, LOAD, and QUIT game.
+	  if menu is implemented, the title screen will also display the menu once a key is pressed.
+	  
+
+OBJECTIVE: collect items that will be appreciated by wife1 and wife2.
+
+20 points possible (1 per item, excluding TASTY DIRT and MAP).
+  point total will increment as each item is obtained.
+  
+  the game can be finished with any number of points between 0 and 20 (talk to wife1 in living room to conclude playthrough).
+  player will be ranked based on point totals as follows:
+  
+    0 - Wack Wife
+    1-5 - WImpy Wife
+    6-10 - Whatever Wife
+    11-15 - Worthy Wife
+    16-19 - Way Good Wife
+    20 - Wondrous Wife
+    
+    commentary will be given on the player's score at the end of the game. 
+    bonus ending for 20/20. the game shames you if you get gifts for only one of your wives, or collect 0 points.
+
+
+
+input NOT case-sensitive
+if command strings are detected in longer strings, they are valid (tolerances?)
+  e.g. 'fuck you man i hope you eat a turd and die' == 'fuck you'
+  tolerance: only detects first command string encountered: in this case, 'fuck you.' ignores 'eat' and 'die'
+  only one command executed per input string
+
+  
+COMMANDS:
+
+LOOK: Examine your surroundings or certain objects.
+USE: Use an object or an item in your inventory.
+GO TO: Walk to another area, or to a particular feature in the current area.
+TALK: Get chatty with other people. Communication is vital to any relationship!
+(ITEMS: Displays items in your inventory. Shorter to type than 'inventory.')    //leave out?
+HINT: Ask for some Hot Tips(tm) to advance the game when you get stuck. Use sparingly!
+SAVE/LOAD: Save your game with current progress, or load a previous save file.
+HELP/?: Display common commands at any time.
+  //Commands in this list will be displayed when user types HELP or ?. All other possible commands will not be shown.
+
+
+ADDITIONAL COMMANDS:
+
+//certain objects will have additional commands that equate to USE. e.g. if you have a drink, both USE and DRINK will use it.
+
+GET/TAKE/GRAB [OBJECT]   
+    //getting items should be constrained to the area in which they exist, and when certain requirements are met. include checks to make sure items can't just get got at any time.
+	trying to 'get' something not on the ITEMS list will return dialogue: 'For some reason, you don't feel like your wives would want that.'
+HUG [PERSON]
+SMOOCH/KISS [PERSON]
+
+
+COMMAND SYNONYMS:
+
+LOOK == LOOK AROUND
+LOOK AT [PERSON/OBJECT] == LOOK/INSPECT/VIEW/SEE/READ [PERSON/OBJECT]  //(some tolerance for misspellings/incomplete person/object names? obvi not if <1 string match)
+GO [TO] [LOCATION/OBJECT] == WALK TO [LOCATION/OBJECT] == WALK [LOCATION/OBJECT]
+TALK [PERSON/OBJECT] == TALK TO [PERSON/OBJECT] == SPEAK [TO] [PERSON/OBJECT]
+ITEM == ITEMS
+
+
+VALID SYNTAX:
+
+LOOK [[AT] [OBJECT]]
+USE [OBJECT1] [ON] [PERSON/OBJECT2]
+GO/WALK [TO] [LOCATION/OBJECT]
+TALK/SPEAK [[TO] [PERSON/OBJECT]]
+
+
+
+INVALID SYNTAX:
+
+LOOK AT    //Look at what?
+USE    //What you tryin' to use tho?
+USE [OBJECT1] [ON] [OBJECT1]    //Impossible!
+GET    //What you tryin' to get tho?
+GO/WALK [TO]    //You won't get very far without a DESTINATION, buddy.
+TALK/SPEAK [TO]    //Who you tryin' to talk to tho?
+[NON-RECOGNIZED COMMAND]   //I don't get it.;  That doesn't make sense to me.;  Could you word it differently?;
+    //[If non-recognized commands used 3+ times in a row:  I just don't understand. If you need help, type HELP or ?
+HUG [NON-PERSON]    //It's more fun to hug someone!
+SMOOCH/KISS [NON-PERSON]    //It's more fun to smooch someone!
+
+	
+SILLY SYNTAX:  //Single-use one-liners. Don't further the game, just fun asides.
+
+LOOK AT [yourself/myself]    //Lookin' good, homie!
+TALK/SPEAK    //[with no followup words] Woof! Woof! Good boy.;  You have a nice conversation with nobody.;  Tell me about it.
+GO/WALK [TO] DESTINATION    //Ha ha ha... Get lost, ya little rascal.
+GET LOST    //I bet you're feelin' pretty smug about that one.
+YEP/YUP/YEAH/YEA/YA/WELP/OH NO/HAHA/HAHAHA/LOL/LMAO/[any amount of !'s]    //Yep.
+[I] LOVE YOU    //I love you too, homie.
+LOVE    //It's what Smoochintimes is all about.
+LOVE YOURSELF/LOVE MYSELF    //You're not perfect, but that's okay. You love and respect yourself.
+LOVE [YOUR WIFE/YOUR WIVES/WIFE1/WIFE2]    //You love both of your wives so much.
+FUCK    //Everybody knows shit fuck.
+FUCK YOU/FUCK YOURSELF/FU/GO TO HELL/KILL YOURSELF/KYS    //But why?;  I thought we were friends!;  Please be nice to me.;  You're better than this.;  You're hurting my feelings.
+DANCE    //You shimmy. You shake. Your joints only pop a little bit from your athletic feat.
+PARTY    //With two whole wives, every day is a party!
+DIE/KILL MYSELF/KMS    //You grow older, day by day. Give it seventy years or so.;  You love your wives so much that sometimes you think your heart might just burst. But, somehow, you manage to pull through every time.
+PEE/POOP/PISS/SHIT    //Please no.;  You know better. You even have an award certificate from preschool that says so!
+HOLY SHIT/HOLY FUCK/OH MY GOD/OMG/OMFG    //Right?
+FUCK [PERSON/OBJECT]    //This isn't that kind of game.;  Buy them dinner first.;  Nah.
+TOUCH YOURSELF/TOUCH MYSELF/MASTURBATE    //You can smack the ham later. You got stuff to do!;  Nah.;  Not while YOU'RE watching.
+CRY    //Shh... shhhh... It's okay, buddy.
+JOKE    //Alright, I know this really good knock-knock joke, but you've got to start me off. Say 'knock knock.'
+KNOCK KNOCK    //Who's there?
+EAT    //You're always ready to eat. Like, half the time you aren't even hungry. You just eat 'cause you're bored.
+SMOOCH/KISS SOMEONE    //Someone is blushing.
+GET FUCKED/GET BENT    //Rude much?
+SLEEP/NAP    //Maybe later. You got stuff to do, homes!
+
+
+
+SPECIAL INPUTS    //to be used during in-game conversations, item USE specifics. regular commands will not apply during inputs
+  e.g. How many? [qty, integer],  Select convo. option [integer value choice],  stored variable names
+
+
+  
+LOCATIONS
+  for each location, the following commands are always available: 
+  LOOK
+  GO TO
+  TALK (If characters are around to be spoken with. Must be near the person (via 'GO TO [PERSON]'-- the game will make fun of you if not    //You strike up a conversation from across the room. [PERSON] puts their hand to their ear like a granny. Maybe you should try getting closer to talk?)
+  HINT  (Hints are specific to the current location, and mention any items that have yet to be collected in the current area. In the case of HANK and CHEESE, which require TASTY DIRT and MAP, respectively, to obtain, the hint will give guidance on the items that are needed. e.g. entering HINT at CHICKEN COOP reads: 'Hank wants some tasty dirt to eat!'
+  Once both items have been obtained in an area, HINT command output defaults to 'We're all done here! Let's mosey somewhere else.')
+  
+  
+  special dialogues may sometimes display the first time a location is visited, or when certain parameters are met. these will be the 'cutscenes' for the game (e.g. BEDROOM during the game intro).
+  
+  on entering a location, a brief location description will display. more information, like items in the area or objects that should be inspected, will be mentioned when player uses LOOK [AROUND].
+  
+  both wives will need specific ITEMS that will make them happy for the perfect romantic day. ITEMS are obtained throughout the following areas:
+  
+  BEDROOM
+  LIVING ROOM
+  YARD
+  CHICKEN COOP
+  CAR
+  CAMPUS  (landing screen-- briefly describes the university, gives options to go to either office or back to CAR)
+    wife1's office
+	wife2's office
+  OVERLOOK
+  DEVIL'S HOUSE
+  COOL SPOT
+  STORE
+
+  there are two items in each area-- twenty-two total. two of the items are used to obtain another item (see item notes).
+
+ITEMS:
+
+  items currently in player's possession can be examined in their inventory by using the command ITEMS. this will bring up a screen where the items will be listed. //LOOK keyboard input for item descriptions, or arrow key input with descriptions of selected item? 
+  items that have not yet been found will have a '???' placeholder in the inventory.
+
+  (for [wife1])
+  DEGREE (campus, wife1's office)  //wife1's PhD. She's been working hard for this, and will definitely appreciate it!
+  BIG WINE (store)  //The bottle promises notes of plum and velvet tannins with a weighted finish. It just tastes like wine to you.
+  HANK (chicken coop)  //She's perfectly happy chilling out inside your shirt, but wants to know if you have snacks.
+  WARM SOCKS (living room)  //wife1 has cold feeties. She'll love these.
+  ARTICLE (cool spot)  //An interesting article on category theory. wife1 will be all over this.
+  COFFEE (campus, wife2's office)  //wife1 needs something to sip out of her mug, after all.
+  MUG (campus, wife1's office)  //wife1's favorite mug. It has chickens on it.
+  HUG (overlook)  //wife1 needs lots of these to keep her going. Lucky for you, she gives great hugs.
+  CARMEX (car)  //For wife1's chappy lippies.
+  PICKLES (devil's house)  //A jar of zesty dill pickle spears. Good as hell.
+  
+  
+  (for [wife2])
+  SHIRT  (bedroom) //Imbued with your own tasty wife smells. wife2 likes to bury her face in it and take a biiiiig sniff.
+  DEVIL'S LETTUCE (devil's house)  //God's gift to humankind.
+  EGG (chicken coop)  //wife2 lovs a egg.
+  CHEESE (yard)  //A mouth-watering wedge of tangy sharp cheddar. Aged in an oak casket.
+  CANDY PILE (store)  //Hopefully this will be enough for wife2.
+  SODA (car)  //A can of Shasta Root Beer. It makes wife2 full of burps, but she likes it.
+  SMOOCH (yard)  //wife2 literally always wants a smooch. Don't hold out on her!
+  DRAWING (campus, wife2's office)  //A cute little picture of you and wife2 that you doodled on a sticky note. They brighten up wife2's office.
+  GAME (cool spot)  //A custom video game for Smoochin' Times Day. Oz and Billy helped out a bunch!
+  BLANKET (living room)  //A soft fleece blanket. Perfect for cuddling.
+  
+  (to fulfill other objectives)
+  TASTY DIRT (overlook)  //Sweet, sweet dirt. A bird delicacy.   (used to acquire HANK)
+      (player can try to GET DIRT at the CHICKEN COOP and the YARD, but it doesn't go into their inventory. The action dialogue reads 'You scoop some normal dirt into your mouth and immediately spit it out. This won't do at all!')
+  MAP (bedroom)  //Directions to a very special treasure.   (used to acquire CHEESE)
+    (LOOK MAP: The map seems to depict paces starting from a specific point. It reads:
+	           
+			   Yonder in the frozen ground
+			   A bounty buried deep does dwell;
+			   Reader, if you wish it found,
+			   Draw from these words. Inspect them well!
+			   
+		(using the MAP in the YARD will initiate cheese-finding.))
+  
+  
+  
+PEOPLE
+
+  characters have base descriptions that will display with the command LOOK [AT] PERSON. additional dialogues may display if there is a possible special interaction at that particular point in the game.  
+  
+  [wife1] (BEDROOM, LIVING ROOM)
+  
+  [wife2] (BEDROOM, CAMPUS, LIVING ROOM)
+  
+  Os (COOL SPOT)
+  
+  Billy (COOL SPOT)
+  
+  Dr. Professor (CAMPUS)
+  
+  Devil (DEVIL'S HOUSE)
+  
+  Khakiman (STORE)
+  
+  Hank (CHICKEN COOP) 
+  
+
+
+SCRIPT
+
+INTRO
+
+text scroll intro: (w/ music)
+  It's February 20XX. 
+  The most romantic day of the year 
+  is right around the corner.
+  That's right: February 14th...
+  Smoochin' Times Day.
+  
+  You are a strapping young butch
+  with two whole wives. Show them
+  that you love them a lot 
+  by finding the perfect gifts.
+  Hurry-- or else you might just
+  become the World's Wimpiest Wife!
+  
+  
+
+LOCATION-SPECIFIC
+
+LOCATION: BEDROOM (Special - Intro)
+
+  You awake in your bed, surrounded by wives. Weak winter sunlight fills the room with muted colors. 
+
+  LOOK: 
+  
+  Some mornings you like to just lie there and hear them breathing. 
+  
+  LOOK: 
+  GO TO: 
+  TALK: 
+  HINT: 
+  
+  
+  
+  
+LOCATION: OVERLOOK
+
+  The dirt smells super tasty here.
+  
+  
+  
+  
+LOCATION: LIVING ROOM
+
+  wife1 will be sitting here. game can be concluded by speaking to her. 
+    once HANK is in your inventory, and you speak to wife1, you can give her HANK right away. HANK will then sit on the arm of the sofa next to her until the end of the game
+      when hank is on the sofa, talking to wife1 gives you the option to say hi to HANK. HANK will beep (sound fx).
+
+
+LOCATION: YARD
+LOCATION: CHICKEN COOP
+
+LOCATION: CAR
+
+  You can head all kinds of places with this sweet ride. Where will you go?
+  1. Home     (transports to YARD)
+  2. Campus   (transports to CAMPUS landing screen)
+  3. The Devil's House
+  4. The Cool Spot
+  5. The Store
+
+     when the player is at a certain location (e.g. they enter the CAR while at home in the YARD), the current location's spot on the numbered list will instead be replaced by the option 'Get out'. Choosing this option will transport the player from the CAR to the current location.
+	 
+	 when a number is chosen, the action dialogue reads 'Let's roll!' and then transports the player to the chosen location.
+	 if a number is entered that is not within the prompt range (1-5), output dialogue 'Whoa there, buddy! Stick to a number on the list.'
+
+  LOOK: Here it is: your super sweet dykemobile, the 1984 Volkswagen Rabbit. Hatchback. Two doors. Five speeds. One satisfying ride. It's taken you across the country dozens of times. The smell of the interior reminds you of roadtrips with your wives. You recently cleaned the car out, though some of wife1's things are still in the CENTER CONSOLE. What you didn't throw out, you stuffed in the GLOVEBOX. Clean enough, I guess.
+  GO TO: ('home', 'campus,' '[the] devil's house', '[the] cool spot', and '[the] store', in addition to numbers 1-5, will work for transporting the player with the GO TO COMMAND. simply typing one of the numbers on the list will do the same.)
+  HINT: 
+  
+  of interest:
+  LOOK
+    SEAT[S] 
+    FLOOR
+	TRUNK  //This ol' hatchback doesn't HAVE a trunk, pal! Nothing in the back but a lug wrench and a carjack.
+	
+  GET
+    LUG WRENCH/CARJACK/CAR JACK    //Those should stay in the car.	
+	 
+
+LOCATION: CAMPUS 
+  wife1's office
+  wife2's office
+
+LOCATION: DEVIL'S HOUSE
+LOCATION: COOL SPOT
+LOCATION: STORE  
+
+
+
+
+
+ENDING
+  
+  wives comment on each item that you bring to them as gifts. then ending scene plays.
+  bonus ending for a perfect 20/20 points.
+  
+  different ending music for scores of 0-5 points, 6-19 points, and 20 points.
+  
+  'Your wives have gifts for you, too. They love, cherish, respect, and support you every day. You're a better person because of them. Each one of you is doing their best, and it shows. The love you share is incredible.'
+
+
+
+MUSIC
+
+  each area has music from a different Gameboy Color game. 
+  tracks are assembled with titles which correspond to their use in-game.
+
+		  
+SOUNDS
+
+  sounds will play in only three instances in the game:
+    1. pressing any key on title screen 
+    2. incrementing the score (after obtaining an item)
+    3. HANK beeps
+    
+
+FONTS
+
+  in-game text will use the font arcadepix (available on dafont.com)
